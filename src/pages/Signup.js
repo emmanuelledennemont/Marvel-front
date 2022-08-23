@@ -5,11 +5,10 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Signup = ({ token, setToken }) => {
+const Signup = ({  setToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [mail, setMail] = useState("");
-  const [newsletter, setNewsletter] = useState(false);
+  const [email, setMail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -17,18 +16,17 @@ const Signup = ({ token, setToken }) => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://marvel-bckend.herokuapp.com/user/signup",
+        "http://localhost:3005/user/signup",
         {
           username: username,
-          email: mail,
+          email: email,
           password: password,
-          newsletter: newsletter,
         }
       );
 
       Cookies.set("token", response.data.token, { expires: 7 });
       setToken(Cookies.set("token", response.data.token, { expires: 7 }));
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log(error.response);
     }
@@ -58,7 +56,7 @@ const Signup = ({ token, setToken }) => {
         <input
           type="email"
           placeholder="E-mail"
-          value={mail}
+          value={email}
           onChange={(event) => setMail(event.target.value)}
         />
         <input
@@ -72,10 +70,6 @@ const Signup = ({ token, setToken }) => {
             <input
               id="checkbox"
               type="checkbox"
-              checked={newsletter}
-              onChange={() => {
-                setNewsletter((prevState) => !prevState);
-              }}
             />
             <label htmlFor="checkbox">Accepter les conditions</label>
           </div>

@@ -8,6 +8,7 @@ const Login = ({ token, setToken }) => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [close, setClose] = useState(false); 
 
   const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ const Login = ({ token, setToken }) => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://marvel-bckend.herokuapp.com/user/login",
+        "http://localhost:3005/user/login",
         {
           email: mail,
           password: password,
@@ -33,7 +34,7 @@ const Login = ({ token, setToken }) => {
 
   return (
     <div className="form container modal-bkgd">
-        <button className="toggle" >
+        <button className="toggle" onClick={() => setClose(!close)}>
                  <FontAwesomeIcon icon="xmark" />
       </button> 
       <h4>Se connecter</h4>
@@ -71,13 +72,13 @@ const Login = ({ token, setToken }) => {
           Pas encore de compte ? Inscris-toi !
         </Link>
         {!token && (
-          <p>Oups... Connectez-Vous pour voir les détails de l'offre</p>
+          <p>Oups... Connectez-Vous</p>
         )}
       </form>
       </div>
       
       </div>
-  
+   
   );
 };
 export default Login;

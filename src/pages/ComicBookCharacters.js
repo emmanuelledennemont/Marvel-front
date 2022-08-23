@@ -1,18 +1,20 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
+const ComicBookCharacters = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
+  const { characterId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3005/comics?title=${title ? title : ""}&limit=${limit}&page=${page}`
+        const response = await axios.get(`http://localhost:3005/comics/${characterId}`
         );
+        
         setData(response.data);
       } catch (error) {
         console.log(error.response);
@@ -21,12 +23,13 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
     };
 
     fetchData();
-  }, [title, limit, page]);
-  const comicsArray = data.comics;
+  }, [characterId]);
+  const comicBookCharactersArray = data.arrayOfComics;
+  const  nameCharacter = data.character_name;
   return (
     <>
       <div className="principal-title">
-        <h1>Comics</h1>
+        <h1>Characters in comics</h1>
       </div>
       {isLoading ? (
         <Loader />
@@ -34,33 +37,25 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
         <div className="featured-articles section section-header-offset">
           <div className="featured-articles-container container d-grid">
             <div className="featured-content d-grid">
-              <div className="headline-banner">
-                <h3 className="headline fancy-border">
-                  <span className="place-items-center">Search</span>
-                </h3>
-                <div className="headline-right-banner">
-                  <FontAwesomeIcon icon="search" />
-                  <input
-                    type="search"
-                    className="headline-description"
-                    placeholder="Search your favorite characters..."
-                    onChange={(event) => setTitle(event.target.value)}
-                  />
-                </div>
-              </div>
-
               <div className="featured-article featured-article-1">
                 <div className="older-posts section">
                   <div>
                     <div className="container grey-section">
-                      <h2 className="section-title" data-name="All comics">
-                        All comics
+                      <h2 className="section-title" data-name="The characters in the comics">
+                        The characters in the comics
                       </h2>
 
+                      <div className="d-grid container older-posts-article-image-wrapper characters-img">
+                        <img
+                          src={data.principalCharacterPicture}
+                          alt="personnage marvel"
+                        />
+                        <p className="name">{nameCharacter}</p>
+                      </div>
                       <div className="older-posts-grid-wrapper d-grid">
-                        {comicsArray.map((element, index) => {
+                        {comicBookCharactersArray.map((element) => {
                           return (
-                            <div className="article d-grid" key={index}>
+                            <div className="article d-grid">
                               {element.picture && (
                                 <div className="older-posts-article-image-wrapper">
                                   <img
@@ -69,7 +64,7 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
                                     className="article-image"
                                   />
                                   <button
-                                    className="btn btn-image"
+                                    className="btn btn-image screen-sm-hidden"
                                     type="submit"
                                   >
                                     <FontAwesomeIcon icon="fa-solid fa-heart" />
@@ -79,7 +74,7 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
 
                               <div className="article-data-container">
                                 {element.title && (
-                                  <h3 className="title article-title">
+                                  <h3 className="title article-title" >
                                     {element.title}
                                   </h3>
                                 )}
@@ -90,7 +85,7 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
                                 ) : (
                                   <p className="article-description">
                                     Discription bientôt disponible pour ce
-                                    personnage
+                                    Comics
                                   </p>
                                 )}
                               </div>
@@ -110,4 +105,4 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
   );
 };
 
-export default Comics;
+export default ComicBookCharacters;
