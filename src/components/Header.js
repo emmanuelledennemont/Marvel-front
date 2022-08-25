@@ -3,6 +3,7 @@ import bd from "../images/bd.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Sidebar from "./Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Header = ({ token, setToken }) => {
   const [show, setShow] = useState(false);
@@ -31,17 +32,18 @@ const Header = ({ token, setToken }) => {
 
           <div className="list list-right">
             <Link
-              to="/favoris"
+              to="/favorites"
               className="btn place-items-center screen-sm-hidden"
             >
               <FontAwesomeIcon icon="fa-solid fa-heart" />
             </Link>
-
+            
+            {show && <Sidebar show={show} setShow={setShow} />}
             <button
               className="btn place-items-center screen-lg-hidden menu-toggle-icon"
               onClick={() => setShow(!show)}
             >
-              {show ? (
+               {show ? (
                 <FontAwesomeIcon icon="xmark" className="open-menu-icon" />
               ) : (
                 <FontAwesomeIcon icon="bars" className="open-menu-icon" />

@@ -1,14 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";
 
 const Login = ({ token, setToken }) => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [close, setClose] = useState(false); 
 
   const navigate = useNavigate();
 
@@ -32,11 +30,10 @@ const Login = ({ token, setToken }) => {
     }
   };
 
+
   return (
     <div className="form container modal-bkgd">
-        <button className="toggle" onClick={() => setClose(!close)}>
-                 <FontAwesomeIcon icon="xmark" />
-      </button> 
+      
       <h4>Se connecter</h4>
       <div className="main-box">
              
@@ -71,9 +68,6 @@ const Login = ({ token, setToken }) => {
         <Link to="/signup" className="link">
           Pas encore de compte ? Inscris-toi !
         </Link>
-        {!token && (
-          <p>Oups... Connectez-Vous</p>
-        )}
       </form>
       </div>
       

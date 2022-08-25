@@ -321,6 +321,74 @@ a.list-item:hover::after {
   display: block;
 }
 
+
+
+/*---SLIDER*/
+
+.section{
+  min-height: 25rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.cards{
+  width: 100%;
+ min-height: 15rem;
+  overflow: hidden;
+  position: relative;
+}
+/*-MODAL*/
+
+
+/*---*/
+.sidebar{
+  width: 320px;
+  height: 265px;
+  position: absolute;
+  top:145px;
+  right:0.5px;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.btn-grp{
+  display: flex;
+  gap:5rem;
+  margin-top:30px;
+}
+.menu-sidebar{
+  display: flex;
+  justify-content: flex-start;
+}
+.menu-sidebar ul{
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-sm);
+  color: #fff;
+  gap: 5rem;
+}
+
+.image-gradient img{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  height: 230px;
+  object-fit: cover;
+  overflow: hidden;
+  border-radius: 10px;
+  position:relative;
+ }
+
+
+
+
+
+
+
+
 /* Featured articles */
 
 .principal-title {
@@ -478,11 +546,6 @@ a.list-item:hover::after {
   background-color: var(--hover-light-color);
 }
 
-.article-data-container {
-}
-
-.article-data-container:hover {
-}
 
 .article-data {
   display: flex;
@@ -940,6 +1003,9 @@ footer {
   .sign-up-btn {
     padding: 4px;
   }
+  .sidebar{
+    display:none;
+  }
 
   /* Fancy button animation effect */
   .btn.fancy-border:hover::before {
@@ -981,9 +1047,7 @@ footer {
     height: 40rem;
   }
   .copyright-notice {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    
     margin-top: 4rem;
   }
 }
@@ -1006,4 +1070,9 @@ footer {
     grid-column: 1/3;
     grid-row: 2/-1;
   }
+  .copyright-notice {
+
+    margin-top: 4rem;
+  
+}
 }

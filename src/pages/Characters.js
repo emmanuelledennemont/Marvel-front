@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import userEvent from "@testing-library/user-event";
 
 const Characters = ({
   name,
@@ -16,7 +17,7 @@ const Characters = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
-  const [paginate, setPaginate] = useState(0);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,13 +28,12 @@ const Characters = ({
           }&limit=${limit}&page=${page}
            `
         );
-        setPaginate(response.data.characters);
-        
+       
         setData(response.data);
-        if (response.data.characters < 100) {
+        if (response.data < 100) {
           setPage(0);
         }
-        
+      
       } catch (error) {
         console.log(error.response);
       }
@@ -43,19 +43,33 @@ const Characters = ({
     fetchData();
   }, [name, page, limit, setPage]);
 
+  const onChangeHandler= (text) => {
+    let matches =[]
+    if (name.length > 0) {
+      matches= charactersDataArray.filter(usr =>{
+        const regex = new RegExp (`${name}`, "gi")
+        return charactersDataArray.match(regex)
+        
+      })
+     
+    }
+    
+  }
+ 
+
   const charactersDataArray = data.characters;
-  const totalPages = data.numberOfPages
+  const totalPages = data.numberOfPages;
   
-  const pages = Math.ceil(charactersDataArray / totalPages);
-  const newLimit = Array.from({ length : totalPages },(_, index)=>{
-    const start = index * totalPages
-    return charactersDataArray.slice(start, start + totalPages)
- })//
+  //const pages = Math.ceil(charactersDataArray / totalPages);
+ // const newLimit = Array.from({ length : totalPages },(_, index)=>{
+  //  const start = index * totalPages
+    //return charactersDataArray.slice(start, start + totalPages)
+ //})//
  
   console.log(totalPages)
 //console.log(charactersDataArray);
 //console.log()
-console.log(newLimit)
+//console.log(newLimit)
   
   const handlePage = (index) => {
     setPage(index);
@@ -65,7 +79,7 @@ console.log(newLimit)
     setPage((page)=>{
       let next = page + 1;
       if(next > charactersDataArray - 100){
-        next =0   
+        next = 0   
       }
       return next
     })
@@ -74,12 +88,14 @@ console.log(newLimit)
     setPage((page)=>{
       let prev = page - 1;
       if(prev < 0){
-        prev = charactersDataArray - 100  
+        prev = charactersDataArray - 100
       }
       return prev
     })
   }
   
+ 
+
 
   return (
     <>
@@ -122,7 +138,7 @@ console.log(newLimit)
                           let characterId = element._id;
                           return (
                             <div>
-                              <div className="article d-grid" key={characterId}>
+                              <div className="article d-grid">
                                 {element.picture && (
                                   <div className="older-posts-article-image-wrapper">
                                     <img
@@ -177,11 +193,11 @@ console.log(newLimit)
                       </div>
                       <div className="btn-container">
                         <button className="prev-btn" onClick={prev} >prev</button>
-                        {charactersDataArray.map((index)=>{
+                        {charactersDataArray?.map((element,index)=>{
                           return(
                             <>
                             <button key={index} className="page-btn" onClick={()=>handlePage(index)}>
-                              {page + 1}
+                              {page+1}
                             </button>
                             </>
                           )

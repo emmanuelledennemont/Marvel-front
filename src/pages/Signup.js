@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Signup = ({  setToken }) => {
   const [username, setUsername] = useState("");
@@ -35,9 +34,6 @@ const Signup = ({  setToken }) => {
 
   return (
     <div className="form container modal-bkgd">
-        <button className="toggle" >
-                 <FontAwesomeIcon icon="xmark" />
-      </button> 
       <h4>S'inscrire</h4>
       <div className="main-box">
       <form
