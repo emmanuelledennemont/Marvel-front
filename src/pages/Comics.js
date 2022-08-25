@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
+const Comics = ({ title, setTitle,page, setPage, limit, setLimit, favoriteComics, setFavoriteComics }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
 
@@ -23,6 +23,8 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
     fetchData();
   }, [title, limit, page]);
   const comicsArray = data.comics;
+  console.log(data)
+  console.log(data.numberOfPages)
   return (
     <>
       <div className="principal-title">
@@ -71,6 +73,13 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit  }) => {
                                   <button
                                     className="btn btn-image"
                                     type="submit"
+                                    onClick={() => {
+                                      let copyFavoriteComics= [
+                                        ...favoriteComics
+                                      ];
+                                      copyFavoriteComics.push(element);
+                                      setFavoriteComics(copyFavoriteComics);
+                                    }}
                                   >
                                     <FontAwesomeIcon icon="fa-solid fa-heart" />
                                   </button>

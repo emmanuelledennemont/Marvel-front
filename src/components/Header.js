@@ -1,15 +1,16 @@
 import logo from "../images/marvelred.png";
 import bd from "../images/bd.png";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Header = ({ token, setToken }) => {
   const [show, setShow] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <>
       <header>
+        <div className="nav-color"></div>
         <nav className="navbar container">
           <Link to="/">
             <img src={logo} alt="" className="logo" />
@@ -22,7 +23,7 @@ const Header = ({ token, setToken }) => {
               <Link to="/comics" className="list-item">
                 Comics
               </Link>
-              <Link to="/favoris" className="list-item">
+              <Link to="/favorites" className="list-item">
                 Favoris
               </Link>
             </ul>
@@ -60,11 +61,11 @@ const Header = ({ token, setToken }) => {
             ) : (
               <div className="btn sign-up-btn fancy-border screen-sm-hidden">
                 <Link
-                  to="/characters"
+                  to="/"
                   onClick={() => {
-                    setToken(null);
                     Cookies.remove("token");
-                    Navigate("/login");
+                    setToken(null);
+                    navigate("/login");
                   }}
                 >
                   <span>Sign out</span>
@@ -73,9 +74,8 @@ const Header = ({ token, setToken }) => {
             )}
           </div>
         </nav>
-        <img src={bd} alt="" className="logo-bd" />
+        <img src={bd} alt="bulle comics" className="logo-bd" />
       </header>
-
     </>
   );
 };

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const ComicBookCharacters = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
+  const [dataName, setDataName] = useState({})
   const { characterId } = useParams();
 
   useEffect(() => {
@@ -14,8 +15,13 @@ const ComicBookCharacters = () => {
       try {
         const response = await axios.get(`http://localhost:3005/comics/${characterId}`
         );
+
+        const responseName = await axios.get(
+          `http://localhost:3005/character/${characterId}`
+        );
         
         setData(response.data);
+        setDataName(responseName.data);
       } catch (error) {
         console.log(error.response);
       }
@@ -25,7 +31,7 @@ const ComicBookCharacters = () => {
     fetchData();
   }, [characterId]);
   const comicBookCharactersArray = data.arrayOfComics;
-  const  nameCharacter = data.character_name;
+  let nameCharacter = dataName.character_name;
   return (
     <>
       <div className="principal-title">
@@ -53,9 +59,9 @@ const ComicBookCharacters = () => {
                         <p className="name">{nameCharacter}</p>
                       </div>
                       <div className="older-posts-grid-wrapper d-grid">
-                        {comicBookCharactersArray.map((element) => {
+                        {comicBookCharactersArray.map((element, index) => {
                           return (
-                            <div className="article d-grid">
+                            <div className="article d-grid"key={element._id}>
                               {element.picture && (
                                 <div className="older-posts-article-image-wrapper">
                                   <img
@@ -63,16 +69,10 @@ const ComicBookCharacters = () => {
                                     alt="comics marvel"
                                     className="article-image"
                                   />
-                                  <button
-                                    className="btn btn-image screen-sm-hidden"
-                                    type="submit"
-                                  >
-                                    <FontAwesomeIcon icon="fa-solid fa-heart" />
-                                  </button>
                                 </div>
                               )}
 
-                              <div className="article-data-container">
+                              <div className="article-data-container" >
                                 {element.title && (
                                   <h3 className="title article-title" >
                                     {element.title}

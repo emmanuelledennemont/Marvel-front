@@ -4,9 +4,19 @@ import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Characters = ({ name, setName, page, setPage, limit, setLimit }) => {
+const Characters = ({
+  name,
+  setName,
+  page,
+  setPage,
+  limit,
+  setLimit,
+  favoriteCharacters,
+  setFavoriteCharacters,
+}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
+  const [paginate, setPaginate] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +27,13 @@ const Characters = ({ name, setName, page, setPage, limit, setLimit }) => {
           }&limit=${limit}&page=${page}
            `
         );
+        setPaginate(response.data.characters);
+        
         setData(response.data);
+        if (response.data.characters < 100) {
+          setPage(0);
+        }
+        
       } catch (error) {
         console.log(error.response);
       }
@@ -25,9 +41,45 @@ const Characters = ({ name, setName, page, setPage, limit, setLimit }) => {
     };
 
     fetchData();
-  }, [name, page, limit]);
+  }, [name, page, limit, setPage]);
 
   const charactersDataArray = data.characters;
+  const totalPages = data.numberOfPages
+  
+  const pages = Math.ceil(charactersDataArray / totalPages);
+  const newLimit = Array.from({ length : totalPages },(_, index)=>{
+    const start = index * totalPages
+    return charactersDataArray.slice(start, start + totalPages)
+ })//
+ 
+  console.log(totalPages)
+//console.log(charactersDataArray);
+//console.log()
+console.log(newLimit)
+  
+  const handlePage = (index) => {
+    setPage(index);
+  };
+
+  const next =()=>{
+    setPage((page)=>{
+      let next = page + 1;
+      if(next > charactersDataArray - 100){
+        next =0   
+      }
+      return next
+    })
+  }
+  const prev =()=>{
+    setPage((page)=>{
+      let prev = page - 1;
+      if(prev < 0){
+        prev = charactersDataArray - 100  
+      }
+      return prev
+    })
+  }
+  
 
   return (
     <>
@@ -69,48 +121,72 @@ const Characters = ({ name, setName, page, setPage, limit, setLimit }) => {
                         {charactersDataArray?.map((element) => {
                           let characterId = element._id;
                           return (
-                            <div className="article d-grid">
-                              {element.picture && (
-                                <div className="older-posts-article-image-wrapper">
-                                  <img
-                                    src={element.picture}
-                                    alt="personnages marvel"
-                                    className="article-image"
-                                  />
-                                  <button
-                                    className="btn btn-image"
-                                    type="submit"
-                                  >
-                                    <FontAwesomeIcon icon="fa-solid fa-heart" />
-                                  </button>
-                                </div>
-                              )}
-                              <Link
-                                to={`/comics/${characterId}`}
-                                className="d-grid "
-                                key={characterId}
-                              >
-                                <div className="article-data-container">
-                                  {element.name && (
-                                    <h3 className="title article-title">
-                                      {element.name}
-                                    </h3>
-                                  )}
-                                  {element.description ? (
-                                    <p className="article-description">
-                                      {element.description}
-                                    </p>
-                                  ) : (
-                                    <p className="article-description">
-                                      Discription bientôt disponible pour ce
-                                      personnage
-                                    </p>
-                                  )}
-                                </div>
-                              </Link>
+                            <div>
+                              <div className="article d-grid" key={characterId}>
+                                {element.picture && (
+                                  <div className="older-posts-article-image-wrapper">
+                                    <img
+                                      src={element.picture}
+                                      alt="personnages marvel"
+                                      className="article-image"
+                                    />
+                                    <button
+                                      className="btn btn-image"
+                                      type="submit"
+                                      onClick={() => {
+                                        let copyFavoriteCharacters = [
+                                          ...favoriteCharacters,
+                                        ];
+                                        copyFavoriteCharacters.push(element);
+                                        setFavoriteCharacters(
+                                          copyFavoriteCharacters
+                                        );
+                                      }}
+                                    >
+                                      <FontAwesomeIcon icon="fa-solid fa-heart" />
+                                    </button>
+                                  </div>
+                                )}
+                                <Link
+                                  to={`/comics/${characterId}`}
+                                  className="d-grid "
+                                  key={characterId}
+                                >
+                                  <div className="article-data-container">
+                                    {element.name && (
+                                      <h3 className="title article-title">
+                                        {element.name}
+                                      </h3>
+                                    )}
+                                    {element.description ? (
+                                      <p className="article-description">
+                                        {element.description}
+                                      </p>
+                                    ) : (
+                                      <p className="article-description">
+                                        Discription bientôt disponible pour ce
+                                        personnage
+                                      </p>
+                                    )}
+                                  </div>
+                                </Link>
+                              </div>
                             </div>
                           );
                         })}
+                      </div>
+                      <div className="btn-container">
+                        <button className="prev-btn" onClick={prev} >prev</button>
+                        {charactersDataArray.map((index)=>{
+                          return(
+                            <>
+                            <button key={index} className="page-btn" onClick={()=>handlePage(index)}>
+                              {page + 1}
+                            </button>
+                            </>
+                          )
+                        })}
+                         <button className="prev-btn" onClick={next}>next</button>
                       </div>
                     </div>
                   </div>

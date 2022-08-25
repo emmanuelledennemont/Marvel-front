@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Characters from "./pages/Characters";
 import Comics from "./pages/Comics";
 import ComicBookCharacters from "./pages/ComicBookCharacters";
+import Favorites from "./pages/Favorites";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
@@ -24,7 +25,9 @@ function App() {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(100);
+  const [limit, setLimit] = useState(15);
+  const [favoriteComics, setFavoriteComics] = useState([]);
+  const [favoriteCharacters, setFavoriteCharacters] = useState([]);
 
   const [token, setToken] = useState(Cookies.get("token") || null);
   return (
@@ -50,6 +53,8 @@ function App() {
                   setPage={setPage}
                   limit={limit}
                   setLimit={setLimit}
+                  favoriteCharacters={favoriteCharacters}
+                  setFavoriteCharacters={setFavoriteCharacters}
                 />
               }
             />
@@ -63,6 +68,8 @@ function App() {
                   setPage={setPage}
                   limit={limit}
                   setLimit={setLimit}
+                  favoriteComics={favoriteComics}
+                  setFavoriteComics={setFavoriteComics}
                 />
               }
             />
@@ -71,6 +78,19 @@ function App() {
               path="/comics/:characterId"
               element={<ComicBookCharacters />}
             />
+
+            <Route
+              path="/favorites"
+              element={
+                <Favorites
+                  favoriteCharacters={favoriteCharacters}
+                  setFavoriteCharacters={setFavoriteCharacters}
+                  favoriteComics={favoriteComics}
+                  setFavoriteComics={setFavoriteComics}
+                />
+              }
+            />
+
             <Route
               path="/signup"
               element={<Signup token={token} setToken={setToken} />}
