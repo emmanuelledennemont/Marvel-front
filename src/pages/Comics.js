@@ -23,8 +23,7 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit, favoriteComics
     fetchData();
   }, [title, limit, page]);
   const comicsArray = data.comics;
-  console.log(data)
-  console.log(data.numberOfPages)
+
   return (
     <>
       <div className="principal-title">

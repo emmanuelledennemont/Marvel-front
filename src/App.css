@@ -323,8 +323,6 @@ a.list-item:hover::after {
   display: block;
 }
 
-
-
 /*---SLIDER*/
 
 .section{
@@ -478,6 +476,32 @@ a.list-item:hover::after {
   padding: 0.6rem 1.5rem;
   align-items: center;
 }
+
+
+/*---dropdown in article section---*/
+.search-container{
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown{
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #fff;
+}
+
+.dropdown:empty{
+  border: none;
+}
+
+.dropdown-row{
+  cursor:pointer;
+  text-align: start;
+  margin: 2px 0;
+}
+/*--- end---*/
 
 .article {
   position: relative;

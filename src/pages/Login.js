@@ -55,6 +55,7 @@ const Login = ({ token, setToken }) => {
         <input
           type="password"
           placeholder="Mot de passe"
+          
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />

@@ -16,6 +16,8 @@ const Characters = ({
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,7 +27,7 @@ const Characters = ({
           }&limit=${limit}&page=${page}
            `
         );
-
+      
         setData(response.data);
         if (response.data < 100) {
           setPage(0);
@@ -34,10 +36,14 @@ const Characters = ({
         console.log(error.response);
       }
       setIsLoading(false);
+      
     };
 
     fetchData();
+  
+
   }, [name, page, limit, setPage]);
+
 
   const onSearch = (searchTerm) => {
     setName(searchTerm);
@@ -76,6 +82,19 @@ const Characters = ({
         <div className="featured-articles section section-header-offset">
           <div className="featured-articles-container container d-grid">
             <div className="featured-content d-grid">
+            <div className="dropdown">
+                    {charactersDataArray
+                      ?.filter((charactersDataArray) => {
+                        const searchTerm = name.toLowerCase();
+                        const fullName = charactersDataArray.name.toLowerCase();
+                        return searchTerm && fullName.startsWith(searchTerm) && fullName !== searchTerm;
+                      }).slice(0, 15)
+                      .map((element) => (
+                        <div className="dropdown-row" key={element.name} onClick={()=>onSearch(element.name)}>
+                          {element.name}
+                        </div>
+                      ))}
+                  </div>
               <div className="headline-banner">
                 <h3
                   className="headline fancy-border"
@@ -95,19 +114,7 @@ const Characters = ({
                       setName(event.target.value);
                     }}
                   />
-                  <div className="dropdown">
-                    {charactersDataArray
-                      ?.filter((charactersDataArray) => {
-                        const searchTerm = name.toLowerCase();
-                        const fullName = charactersDataArray.name.toLowerCase();
-                        return searchTerm && fullName.startsWith(searchTerm) && fullName !== searchTerm;
-                      }).slice(0, 15)
-                      .map((element) => (
-                        <div className="dropdown-row" key={element.name} onClick={()=>onSearch(element.name)}>
-                          {element.name}
-                        </div>
-                      ))}
-                  </div>
+             
                 </div>
               </div>
 
@@ -120,7 +127,7 @@ const Characters = ({
                       </h2>
 
                       <div className="older-posts-grid-wrapper d-grid">
-                        {charactersDataArray?.map((element, index) => {
+                        {charactersDataArray?.map((element) => {
                           let characterId = element._id;
                           return (
                             <div className="article d-grid" key={characterId}>

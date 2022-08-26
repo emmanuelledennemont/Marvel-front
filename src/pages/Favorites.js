@@ -23,11 +23,12 @@ const Favorites = ({
 
                 <div className="d-grid section">
                 <Splide options={{perPage: 3, gap:"2rem", drag:"free", pagination:false, arrows:false,}}> 
-                  {favoriteComics.map((element) => {
+                  {favoriteComics.map((element,index) => {
                      
                     return ( 
+                        <div key={index}>
                         <SplideSlide>
-                      <div className="article d-grid" key={element._id}>
+                      <div className="article d-grid" >
                         {element.picture && (
                           <div className="older-posts-article-image-wrapper">
                             <img
@@ -56,6 +57,7 @@ const Favorites = ({
                         </div>
                       </div>
                       </SplideSlide>
+                      </div>
                     );
                     
                   })}
@@ -79,10 +81,11 @@ const Favorites = ({
 
                       <div className="d-grid section">
                       <Splide options={{perPage: 3, gap:"2rem", drag:"free", pagination:false, arrows:false,}}>  
-                        {favoriteCharacters.map((element) => {
+                        {favoriteCharacters.map((element, index) => {
                          
                           return (
-                            <SplideSlide>
+                              <div key={index}>
+                            <SplideSlide >
                             <div>
                               <div className="article d-grid cards" >
                                 {element.picture && (
@@ -117,6 +120,7 @@ const Favorites = ({
                               </div>
                             </div>
                             </SplideSlide>
+                            </div>
                           );
                         })}
                            </Splide>
