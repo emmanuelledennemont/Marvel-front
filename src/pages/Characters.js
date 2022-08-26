@@ -79,10 +79,9 @@ const Characters = ({
       {isLoading ? (
         <Loader />
       ) : (
+        
         <div className="featured-articles section section-header-offset">
-          <div className="featured-articles-container container d-grid">
-            <div className="featured-content d-grid">
-            <div className="dropdown">
+               <div className="dropdown ">
                     {charactersDataArray
                       ?.filter((charactersDataArray) => {
                         const searchTerm = name.toLowerCase();
@@ -95,6 +94,9 @@ const Characters = ({
                         </div>
                       ))}
                   </div>
+          <div className="featured-articles-container container d-grid">
+            <div className="featured-content d-grid">
+       
               <div className="headline-banner">
                 <h3
                   className="headline fancy-border"

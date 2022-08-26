@@ -480,12 +480,16 @@ a.list-item:hover::after {
 
 /*---dropdown in article section---*/
 .search-container{
-  width: 280px;
+  width: 100%;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
+  margin-right: 5px;
 }
 
 .dropdown{
+  width: 100%;
+  max-width: 480px;
   background-color: white;
   display: flex;
   flex-direction: column;
