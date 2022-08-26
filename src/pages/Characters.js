@@ -11,13 +11,14 @@ const Characters = ({
   page,
   setPage,
   limit,
-  setLimit,
   favoriteCharacters,
   setFavoriteCharacters,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState({});
-  
+  const [data, setData] = useState([]);
+  const [nameMatch, setNameMatch] =useState();
+  const [text, setText]= useState ('');
+  const [suggestions, setSuggestions ]= useState ([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,38 +44,22 @@ const Characters = ({
     fetchData();
   }, [name, page, limit, setPage]);
 
+
   const onChangeHandler= (text) => {
-    let matches =[]
-    if (name.length > 0) {
-      matches= charactersDataArray.filter(usr =>{
-        const regex = new RegExp (`${name}`, "gi")
-        return charactersDataArray.match(regex)
-        
-      })
-     
+    let matches = []
+    if (text.length>0){
+matches = charactersDataArray.filter(charactersDataArray =>{
+  const regex = new RegExp(`${text}`,"gi")
+  return charactersDataArray.name.match(regex)
+})
     }
-    
+    console.log(matches);
+    setSuggestions(matches)
+     setText(text)
   }
  
-
   const charactersDataArray = data.characters;
-  const totalPages = data.numberOfPages;
   
-  //const pages = Math.ceil(charactersDataArray / totalPages);
- // const newLimit = Array.from({ length : totalPages },(_, index)=>{
-  //  const start = index * totalPages
-    //return charactersDataArray.slice(start, start + totalPages)
- //})//
- 
-  console.log(totalPages)
-//console.log(charactersDataArray);
-//console.log()
-//console.log(newLimit)
-  
-  const handlePage = (index) => {
-    setPage(index);
-  };
-
   const next =()=>{
     setPage((page)=>{
       let next = page + 1;
@@ -93,8 +78,6 @@ const Characters = ({
       return prev
     })
   }
-  
- 
 
 
   return (
@@ -107,21 +90,26 @@ const Characters = ({
       ) : (
         <div className="featured-articles section section-header-offset">
           <div className="featured-articles-container container d-grid">
+          <div>{text}</div>
             <div className="featured-content d-grid">
+           
               <div className="headline-banner">
                 <h3 className="headline fancy-border">
                   <span className="place-items-center">Search</span>
                 </h3>
+                
                 <div className="headline-right-banner">
                   <FontAwesomeIcon icon="search" />
                   <input
                     type="search"
                     className="headline-description"
                     placeholder="Search your favorite characters..."
+                    value={text}
                     onChange={(event) => {
-                      setName(event.target.value);
+                      onChangeHandler(event.target.value);
                     }}
                   />
+                 
                 </div>
               </div>
 
@@ -134,11 +122,11 @@ const Characters = ({
                       </h2>
 
                       <div className="older-posts-grid-wrapper d-grid">
-                        {charactersDataArray?.map((element) => {
+                        {charactersDataArray?.map((element, index) => {
                           let characterId = element._id;
                           return (
-                            <div>
-                              <div className="article d-grid">
+                            <>
+                              <div className="article d-grid" key={index}>
                                 {element.picture && (
                                   <div className="older-posts-article-image-wrapper">
                                     <img
@@ -166,7 +154,7 @@ const Characters = ({
                                 <Link
                                   to={`/comics/${characterId}`}
                                   className="d-grid "
-                                  key={characterId}
+                    
                                 >
                                   <div className="article-data-container">
                                     {element.name && (
@@ -187,21 +175,21 @@ const Characters = ({
                                   </div>
                                 </Link>
                               </div>
-                            </div>
+                            </>
                           );
                         })}
                       </div>
                       <div className="btn-container">
                         <button className="prev-btn" onClick={prev} >prev</button>
-                        {charactersDataArray?.map((element,index)=>{
-                          return(
-                            <>
-                            <button key={index} className="page-btn" onClick={()=>handlePage(index)}>
-                              {page+1}
+                        <button  className="page-btn">
+                              {1} ...
+                            </button>       
+                            <button className="page-btn">
+                              {page+1} ...
                             </button>
-                            </>
-                          )
-                        })}
+                            <button className="page-btn">
+                              {100}
+                            </button>
                          <button className="prev-btn" onClick={next}>next</button>
                       </div>
                     </div>

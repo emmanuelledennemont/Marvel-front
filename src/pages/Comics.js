@@ -60,7 +60,7 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit, favoriteComics
                       </h2>
 
                       <div className="older-posts-grid-wrapper d-grid">
-                        {comicsArray.map((element, index) => {
+                        {comicsArray?.map((element, index) => {
                           return (
                             <div className="article d-grid" key={index}>
                               {element.picture && (

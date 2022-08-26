@@ -1,7 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 
 const Sidebar = (show, setShow, token , setToken) => {
   const navigate = useNavigate();
