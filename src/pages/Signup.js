@@ -15,7 +15,7 @@ const Signup = ({  setToken }) => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://localhost:3005/user/signup",
+        "https://marvel-bck.herokuapp.com/user/signup",
         {
           username: username,
           email: email,

@@ -3,11 +3,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import userEvent from "@testing-library/user-event";
 
 const Characters = ({
   name,
-  setName,
   page,
   setPage,
   limit,
@@ -16,15 +14,14 @@ const Characters = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [nameMatch, setNameMatch] =useState();
   const [text, setText]= useState ('');
-  const [suggestions, setSuggestions ]= useState ([]);
+  const [ setSuggestions ]= useState ([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3005/characters?name=${
+          `https://marvel-bck.herokuapp.com/characters?name=${
             name ? name : ""
           }&limit=${limit}&page=${page}
            `
@@ -64,7 +61,7 @@ matches = charactersDataArray.filter(charactersDataArray =>{
     setPage((page)=>{
       let next = page + 1;
       if(next > charactersDataArray - 100){
-        next = 0   
+        next = 0  
       }
       return next
     })
@@ -74,6 +71,7 @@ matches = charactersDataArray.filter(charactersDataArray =>{
       let prev = page - 1;
       if(prev < 0){
         prev = charactersDataArray - 100
+        prev =1
       }
       return prev
     })
@@ -122,11 +120,11 @@ matches = charactersDataArray.filter(charactersDataArray =>{
                       </h2>
 
                       <div className="older-posts-grid-wrapper d-grid">
-                        {charactersDataArray?.map((element, index) => {
+                        {charactersDataArray?.map((element) => {
                           let characterId = element._id;
                           return (
-                            <>
-                              <div className="article d-grid" key={index}>
+                            
+                              <div className="article d-grid" key={characterId}>
                                 {element.picture && (
                                   <div className="older-posts-article-image-wrapper">
                                     <img
@@ -154,7 +152,6 @@ matches = charactersDataArray.filter(charactersDataArray =>{
                                 <Link
                                   to={`/comics/${characterId}`}
                                   className="d-grid "
-                    
                                 >
                                   <div className="article-data-container">
                                     {element.name && (
@@ -175,7 +172,6 @@ matches = charactersDataArray.filter(charactersDataArray =>{
                                   </div>
                                 </Link>
                               </div>
-                            </>
                           );
                         })}
                       </div>

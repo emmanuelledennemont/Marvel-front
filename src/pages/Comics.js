@@ -11,7 +11,7 @@ const Comics = ({ title, setTitle,page, setPage, limit, setLimit, favoriteComics
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3005/comics?title=${title ? title : ""}&limit=${limit}&page=${page}`
+          `https://marvel-bck.herokuapp.com/comics?title=${title ? title : ""}&limit=${limit}&page=${page}`
         );
         setData(response.data);
       } catch (error) {
