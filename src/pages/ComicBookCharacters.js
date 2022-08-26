@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const ComicBookCharacters = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,11 +13,11 @@ const ComicBookCharacters = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3005/comics/${characterId}`
+        const response = await axios.get(`https://marvel-bck.herokuapp.com/comics/${characterId}`
         );
 
         const responseName = await axios.get(
-          `http://localhost:3005/character/${characterId}`
+          `https://marvel-bck.herokuapp.com/character/${characterId}`
         );
         
         setData(response.data);
